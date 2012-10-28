@@ -1,7 +1,8 @@
 Pomodoro Timer
 ==============
 
-*Fork from [squil/pomodoro.rb](https://github.com/squil/pomodoro.rb).*
+*Fork from [squil/pomodoro.rb](https://github.com/squil/pomodoro.rb).
+Changed from Growl to libnotify for use with Gnome.*
 
 A relatively simple Pomodoro timer. Knows about Pomodoros, short breaks and long breaks.
 
