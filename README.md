@@ -18,3 +18,8 @@ Usage
 -----
 
     ruby pomodoro.rb
+
+Growl
+----
+
+A Growl version is working with growl fork (version growl 1.2.2f1) and growlnotifiy 1.2 on the **growl** branch.
