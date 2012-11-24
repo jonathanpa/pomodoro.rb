@@ -2,14 +2,15 @@ Pomodoro Timer
 ==============
 
 *Fork from [squil/pomodoro.rb](https://github.com/squil/pomodoro.rb).
-Changed from Growl to libnotify for use with Gnome.*
+Added libnotify for use with Gnome.*
 
-A relatively simple Pomodoro timer. Knows about Pomodoros, short breaks and long breaks.
+A relatively simple Pomodoro timer.
 
 Features
 --------
 
-* **Libnotify notifications** (original project uses Growl notifications)
+* **Libnotify notifications**
+* Growl notifications
 * progress bar
 * automatic breaks
 * includes long breaks
@@ -19,7 +20,8 @@ Usage
 
     ruby pomodoro.rb
 
-Growl
+Configuration
 ----
 
-A Growl version is working with growl fork (version growl 1.2.2f1) and growlnotifiy 1.2 on the **growl** branch.
+Open the `config.yml` and set the `notifier` property to `'growl'` or `'libnotify'`.
+
