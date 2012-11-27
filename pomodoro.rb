@@ -1,6 +1,7 @@
 #! /usr/bin/ruby
 
 require 'ostruct'
+require 'yaml'
 
 options = ARGV
 if options.include?('--help') || options.include?('-h')
@@ -20,11 +21,23 @@ if i = options.index('--time')
   end
 end
 
+# Initialize the notifier according to the
+# config.yml
+case YAML.load_file('config.yml')['notifier']
+when 'libnotify'
+  notifier_id = :libnotify
+  notifier = 'notify-send'
+when 'growl'
+  notifier_id = :growl
+  notifier = 'growlnotify -s -m '
+else
+  puts 'Unknown notifier'
+  exit
+end
 
-notifier = 'notify-send'
-pomodoro = OpenStruct.new(:name => 'Pomodoro', :time => pomodoro_time * 60, :message => 'Pomodoro Time is up!', :notifier => notifier)
-short_break = OpenStruct.new(:name => 'Short break', :time => 5 * 60, :message => 'Pomodoro Break is up!', :notifier => notifier)
-long_break = OpenStruct.new(:name => 'Long break', :time => 15 * 60, :message => 'Pomodoro Break is up!', :notifier => notifier)
+pomodoro = OpenStruct.new(:name => 'Pomodoro', :time => pomodoro_time * 60, :message => 'Pomodoro Time is up!', :notifier_id => notifier_id, :notifier => notifier)
+short_break = OpenStruct.new(:name => 'Short break', :time => 5 * 60, :message => 'Pomodoro Break is up!', :notifier_id => notifier_id, :notifier => notifier)
+long_break = OpenStruct.new(:name => 'Long break', :time => 15 * 60, :message => 'Pomodoro Break is up!', :notifier_id => notifier_id, :notifier => notifier)
 
 def start(chunk)
   puts "\n#{chunk.name}!"
@@ -56,7 +69,12 @@ def long_break_time?
 end
 
 def finish(chunk)
-  `#{chunk.notifier} 'Pomodoro' '#{chunk.message}'`
+  case chunk.notifier_id
+  when :libnotify
+    `#{chunk.notifier} 'Pomodoro' '#{chunk.message}'`
+  when :growl
+   `#{chunk.notifier} #{chunk.message}`
+  end
 end
 
 def run(chunk)
